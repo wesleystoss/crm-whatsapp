@@ -6,11 +6,19 @@ function renderChatWindow($cliente, $messages) {
     $canalIcon = '<img src="/assets/whatsapp.svg" alt="WhatsApp" style="width:20px;vertical-align:middle;margin-right:6px;">';
     $canalNome = 'WhatsApp';
     echo '<div class="chat-window">';
-    echo '<div class="chat-header">';
-    echo $canalIcon . ' Atendimento com <strong>' . htmlspecialchars($nome) . '</strong> (Ticket #' . $ticket . ')';
+    echo '<div class="chat-header" style="display:flex;align-items:center;gap:12px;padding:10px 16px;background:#075e54;color:#fff;">';
+    // Foto do usuário (placeholder)
+    $fotoPerfil = isset($cliente['foto']) ? $cliente['foto'] : '/assets/user-placeholder.png';
+    echo '<img src="' . htmlspecialchars($fotoPerfil) . '" alt="Foto do usuário" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid #25d366;">';
+    // Nome e número
+    echo '<div style="display:flex;flex-direction:column;gap:2px;">';
+    echo '<span style="font-weight:600;font-size:1.1em;">' . htmlspecialchars($nome) . '</span>';
     if ($whatsapp) {
-        echo ' <span style="margin-left:12px;color:#25d366;font-weight:500;">WhatsApp: ' . htmlspecialchars($whatsapp) . '</span>';
+        echo '<span style="font-size:0.97em;color:#e0e0e0;">' . htmlspecialchars($whatsapp) . '</span>';
     }
+    echo '</div>';
+    // Ticket à direita
+    echo '<div style="margin-left:auto;font-size:0.93em;color:#b2dfdb;">Ticket #' . $ticket . '</div>';
     echo '</div>';
     echo '<div class="messages whatsapp-bg">';
     foreach ($messages as $msg) {
