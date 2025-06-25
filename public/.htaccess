@@ -1,0 +1,14 @@
+# Habilita o mod_rewrite
+RewriteEngine On
+RewriteBase /
+
+# Não redireciona se for arquivo ou diretório real
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Redireciona tudo para index.php
+RewriteRule ^ index.php [QSA,L]
+
+# Garante UTF-8
+AddDefaultCharset UTF-8 

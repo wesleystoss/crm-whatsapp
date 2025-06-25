@@ -1,0 +1,25 @@
+﻿services:
+  web:
+    image: php:8.1-apache
+    container_name: crm-web
+    volumes:
+      - ./public:/var/www/html
+      - ./src:/var/www/src
+      - ./app:/var/www/app
+      - ./config:/var/www/config
+      - ./resources:/var/www/resources
+      - ./views:/var/www/views
+    ports:
+      - '8080:80'
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    command: ["/bin/sh", "-c", "a2enmod rewrite && apache2-foreground"]
+  composer:
+    image: composer:2
+    container_name: crm-composer
+    volumes:
+      - ./:/app
+    working_dir: /app
+    entrypoint: ["composer"]
+    command: ["install"]
+
