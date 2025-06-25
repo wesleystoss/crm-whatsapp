@@ -12,16 +12,19 @@ $page = $_GET['page'] ?? 'atendimentos';
 // Simulação de dados
 $clientes = [
     'Cliente 1' => [
+        'id' => 'cliente1',
         'nome' => 'Cliente 1',
         'whatsapp' => '+55 11 91234-5678',
         'ticket' => '23233',
     ],
     'Cliente 2' => [
+        'id' => 'cliente2',
         'nome' => 'Cliente 2',
         'whatsapp' => '+55 21 99876-5432',
         'ticket' => '23234',
     ],
     'Cliente 3' => [
+        'id' => 'cliente3',
         'nome' => 'Cliente 3',
         'whatsapp' => '+55 31 98765-4321',
         'ticket' => '23235',
@@ -32,15 +35,15 @@ if (!isset($_SESSION['messages'])) {
     $_SESSION['messages'] = [
         'Cliente 1' => [
             ['text' => 'Olá, preciso de ajuda!', 'sent' => false],
-            ['text' => 'Olá! Como posso ajudar?', 'sent' => true],
+            ['text' => 'Olá! Como posso ajudar?', 'sent' => true, 'operador' => $operador],
         ],
         'Cliente 2' => [
             ['text' => 'Bom dia!', 'sent' => false],
-            ['text' => 'Bom dia, em que posso ajudar?', 'sent' => true],
+            ['text' => 'Bom dia, em que posso ajudar?', 'sent' => true, 'operador' => $operador],
         ],
         'Cliente 3' => [
             ['text' => 'Oi, tem promoção?', 'sent' => false],
-            ['text' => 'Temos sim! Quer saber mais?', 'sent' => true],
+            ['text' => 'Temos sim! Quer saber mais?', 'sent' => true, 'operador' => $operador],
         ],
     ];
 }
@@ -50,7 +53,7 @@ $activeChat = $_GET['chat'] ?? $chats[0];
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nova_mensagem']) && isset($_POST['mensagem'])) {
     $msg = trim($_POST['mensagem']);
     if ($msg !== '') {
-        $_SESSION['messages'][$activeChat][] = ['text' => $msg, 'sent' => true];
+        $_SESSION['messages'][$activeChat][] = ['text' => $msg, 'sent' => true, 'operador' => $operador];
         // Simula resposta automática
         $_SESSION['messages'][$activeChat][] = ['text' => 'Recebido: ' . $msg, 'sent' => false];
     }
