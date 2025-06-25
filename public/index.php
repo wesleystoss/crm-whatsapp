@@ -34,16 +34,16 @@ $chats = array_keys($clientes);
 if (!isset($_SESSION['messages'])) {
     $_SESSION['messages'] = [
         'Cliente 1' => [
-            ['text' => 'Olá, preciso de ajuda!', 'sent' => false],
-            ['text' => 'Olá! Como posso ajudar?', 'sent' => true, 'operador' => $operador],
+            ['text' => 'Olá, preciso de ajuda!', 'sent' => false, 'hora' => '09:00'],
+            ['text' => 'Olá! Como posso ajudar?', 'sent' => true, 'operador' => $operador, 'hora' => '09:01'],
         ],
         'Cliente 2' => [
-            ['text' => 'Bom dia!', 'sent' => false],
-            ['text' => 'Bom dia, em que posso ajudar?', 'sent' => true, 'operador' => $operador],
+            ['text' => 'Bom dia!', 'sent' => false, 'hora' => '10:00'],
+            ['text' => 'Bom dia, em que posso ajudar?', 'sent' => true, 'operador' => $operador, 'hora' => '10:01'],
         ],
         'Cliente 3' => [
-            ['text' => 'Oi, tem promoção?', 'sent' => false],
-            ['text' => 'Temos sim! Quer saber mais?', 'sent' => true, 'operador' => $operador],
+            ['text' => 'Oi, tem promoção?', 'sent' => false, 'hora' => '11:00'],
+            ['text' => 'Temos sim! Quer saber mais?', 'sent' => true, 'operador' => $operador, 'hora' => '11:01'],
         ],
     ];
 }
@@ -53,9 +53,10 @@ $activeChat = $_GET['chat'] ?? $chats[0];
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nova_mensagem']) && isset($_POST['mensagem'])) {
     $msg = trim($_POST['mensagem']);
     if ($msg !== '') {
-        $_SESSION['messages'][$activeChat][] = ['text' => $msg, 'sent' => true, 'operador' => $operador];
+        $hora = date('H:i');
+        $_SESSION['messages'][$activeChat][] = ['text' => $msg, 'sent' => true, 'operador' => $operador, 'hora' => $hora];
         // Simula resposta automática
-        $_SESSION['messages'][$activeChat][] = ['text' => 'Recebido: ' . $msg, 'sent' => false];
+        $_SESSION['messages'][$activeChat][] = ['text' => 'Recebido: ' . $msg, 'sent' => false, 'hora' => $hora];
     }
     header('Location: index.php?page=atendimentos&chat=' . urlencode($activeChat));
     exit;

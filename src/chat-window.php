@@ -30,15 +30,16 @@ function renderChatWindow($cliente, $messages) {
     echo '<div class="messages whatsapp-bg">';
     foreach ($messages as $msg) {
         $class = $msg['sent'] ? 'message sent' : 'message received';
+        $hora = isset($msg['hora']) ? $msg['hora'] : '';
         if (!empty($msg['sent'])) {
             $operador = $msg['operador'] ?? '';
             if ($operador) {
-                echo '<div class="' . $class . '"><div><span style="font-weight:bold;">' . htmlspecialchars($operador) . ':</span></div><div>' . htmlspecialchars($msg['text']) . '</div></div>';
+                echo '<div class="' . $class . '"><div><span style="font-weight:bold;">' . htmlspecialchars($operador) . ':</span></div><div>' . htmlspecialchars($msg['text']) . '</div><div style="text-align:right;font-size:0.92em;color:#888;margin-top:4px;">' . htmlspecialchars($hora) . '</div></div>';
             } else {
-                echo '<div class="' . $class . '">' . htmlspecialchars($msg['text']) . '</div>';
+                echo '<div class="' . $class . '">' . htmlspecialchars($msg['text']) . '<div style="text-align:right;font-size:0.92em;color:#888;margin-top:4px;">' . htmlspecialchars($hora) . '</div></div>';
             }
         } else {
-            echo '<div class="' . $class . '">' . htmlspecialchars($msg['text']) . '</div>';
+            echo '<div class="' . $class . '">' . htmlspecialchars($msg['text']) . '<div style="text-align:right;font-size:0.92em;color:#888;margin-top:4px;">' . htmlspecialchars($hora) . '</div></div>';
         }
     }
     echo '</div>';
