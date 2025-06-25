@@ -31,12 +31,19 @@ function renderChatWindow($cliente, $messages) {
     foreach ($messages as $msg) {
         $class = $msg['sent'] ? 'message sent' : 'message received';
         $hora = isset($msg['hora']) ? $msg['hora'] : '';
+        $checks = '';
         if (!empty($msg['sent'])) {
+            // Ícone de check: ✓ para enviada, ✓✓ azul para lida
+            if (isset($msg['lida']) && $msg['lida']) {
+                $checks = '<span style="color:#4fc3f7;font-size:1.1em;margin-left:6px;">&#10003;&#10003;</span>';
+            } else {
+                $checks = '<span style="color:#888;font-size:1.1em;margin-left:6px;">&#10003;</span>';
+            }
             $operador = $msg['operador'] ?? '';
             if ($operador) {
-                echo '<div class="' . $class . '"><div><span style="font-weight:bold;">' . htmlspecialchars($operador) . ':</span></div><div>' . htmlspecialchars($msg['text']) . '</div><div style="text-align:right;font-size:0.92em;color:#888;margin-top:4px;">' . htmlspecialchars($hora) . '</div></div>';
+                echo '<div class="' . $class . '"><div><span style="font-weight:bold;">' . htmlspecialchars($operador) . ':</span></div><div>' . htmlspecialchars($msg['text']) . '</div><div style="text-align:right;font-size:0.92em;color:#888;margin-top:4px;">' . htmlspecialchars($hora) . $checks . '</div></div>';
             } else {
-                echo '<div class="' . $class . '">' . htmlspecialchars($msg['text']) . '<div style="text-align:right;font-size:0.92em;color:#888;margin-top:4px;">' . htmlspecialchars($hora) . '</div></div>';
+                echo '<div class="' . $class . '">' . htmlspecialchars($msg['text']) . '<div style="text-align:right;font-size:0.92em;color:#888;margin-top:4px;">' . htmlspecialchars($hora) . $checks . '</div></div>';
             }
         } else {
             echo '<div class="' . $class . '">' . htmlspecialchars($msg['text']) . '<div style="text-align:right;font-size:0.92em;color:#888;margin-top:4px;">' . htmlspecialchars($hora) . '</div></div>';

@@ -35,15 +35,15 @@ if (!isset($_SESSION['messages'])) {
     $_SESSION['messages'] = [
         'Cliente 1' => [
             ['text' => 'Olá, preciso de ajuda!', 'sent' => false, 'hora' => '09:00'],
-            ['text' => 'Olá! Como posso ajudar?', 'sent' => true, 'operador' => $operador, 'hora' => '09:01'],
+            ['text' => 'Olá! Como posso ajudar?', 'sent' => true, 'operador' => $operador, 'hora' => '09:01', 'lida' => true],
         ],
         'Cliente 2' => [
             ['text' => 'Bom dia!', 'sent' => false, 'hora' => '10:00'],
-            ['text' => 'Bom dia, em que posso ajudar?', 'sent' => true, 'operador' => $operador, 'hora' => '10:01'],
+            ['text' => 'Bom dia, em que posso ajudar?', 'sent' => true, 'operador' => $operador, 'hora' => '10:01', 'lida' => true],
         ],
         'Cliente 3' => [
             ['text' => 'Oi, tem promoção?', 'sent' => false, 'hora' => '11:00'],
-            ['text' => 'Temos sim! Quer saber mais?', 'sent' => true, 'operador' => $operador, 'hora' => '11:01'],
+            ['text' => 'Temos sim! Quer saber mais?', 'sent' => true, 'operador' => $operador, 'hora' => '11:01', 'lida' => true],
         ],
     ];
 }
@@ -54,7 +54,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nova_mensagem']) && i
     $msg = trim($_POST['mensagem']);
     if ($msg !== '') {
         $hora = date('H:i');
-        $_SESSION['messages'][$activeChat][] = ['text' => $msg, 'sent' => true, 'operador' => $operador, 'hora' => $hora];
+        // Marca todas as mensagens anteriores como não lidas
+        foreach ($_SESSION['messages'][$activeChat] as &$m) {
+            if (!empty($m['sent'])) {
+                $m['lida'] = false;
+            }
+        }
+        unset($m);
+        // Nova mensagem enviada é marcada como lida
+        $_SESSION['messages'][$activeChat][] = ['text' => $msg, 'sent' => true, 'operador' => $operador, 'hora' => $hora, 'lida' => true];
         // Simula resposta automática
         $_SESSION['messages'][$activeChat][] = ['text' => 'Recebido: ' . $msg, 'sent' => false, 'hora' => $hora];
     }
