@@ -10,7 +10,24 @@ $operador = 'João Silva';
 $page = $_GET['page'] ?? 'atendimentos';
 
 // Simulação de dados
-$chats = ['Cliente 1', 'Cliente 2', 'Cliente 3'];
+$clientes = [
+    'Cliente 1' => [
+        'nome' => 'Cliente 1',
+        'whatsapp' => '+55 11 91234-5678',
+        'ticket' => '23233',
+    ],
+    'Cliente 2' => [
+        'nome' => 'Cliente 2',
+        'whatsapp' => '+55 21 99876-5432',
+        'ticket' => '23234',
+    ],
+    'Cliente 3' => [
+        'nome' => 'Cliente 3',
+        'whatsapp' => '+55 31 98765-4321',
+        'ticket' => '23235',
+    ],
+];
+$chats = array_keys($clientes);
 if (!isset($_SESSION['messages'])) {
     $_SESSION['messages'] = [
         'Cliente 1' => [
@@ -48,8 +65,8 @@ echo '<main class="main-content">';
 renderHeader($operador);
 echo '<section class="desk-area">';
 if ($page === 'atendimentos') {
-    renderChatsList($chats, $activeChat);
-    renderChatWindow($activeChat, $_SESSION['messages'][$activeChat]);
+    renderChatsList($clientes, $activeChat);
+    renderChatWindow($clientes[$activeChat], $_SESSION['messages'][$activeChat]);
 } elseif ($page === 'contatos') {
     echo '<div style="padding:32px;"><h2>Contatos</h2><p>Lista de contatos em breve...</p></div>';
 } elseif ($page === 'historico') {
